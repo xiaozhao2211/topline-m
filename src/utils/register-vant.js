@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import { NavBar,
-  Field } from 'vant'
+  Field,
+  Button } from 'vant'
 Vue.use(NavBar)
   .use(Field)
+  .use(Button)
