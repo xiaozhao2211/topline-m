@@ -21,20 +21,30 @@ export default {
   name: 'LoginPage',
   data () {
     return {
+      // 用户登录信息
       user: {
-        mobile: '',
-        code: ''
+        mobile: '', // 手机号
+        code: ''// 验证码
       }
     }
   },
   methods: {
     async userLogin () {
       const user = this.user
+      // 登录提示
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        message: '登陆中'
+      })
+      // 请求登录
       try {
         let result = await login(user)
         console.log(result)
+        this.$toast.success('登录成功')
       } catch (error) {
         console.log('登录失败', error)
+        this.$toast.fail('登录失败')
       }
     }
   }
