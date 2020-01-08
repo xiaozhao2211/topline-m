@@ -4,9 +4,29 @@
       <van-nav-bar title="登录"></van-nav-bar>
       <!-- 表单 -->
       <van-cell-group>
-        <van-field label="用户名" placeholder="请输入用户名" clearable v-model="user.mobile"></van-field>
-        <van-field label="验证码" placeholder="请输入验证码" clearable v-model="user.code">
-            <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+        <van-field
+        label="用户名"
+        placeholder="请输入用户名"
+        clearable
+        required
+        v-model="user.mobile"></van-field>
+        <van-field
+        label="验证码"
+        placeholder="请输入验证码"
+        required
+        clearable v-model="user.code">
+           <van-count-down
+           slot="button"
+           :time=" 60 * 1000"
+           format="ss s"
+           v-if="isCountDownShow"
+           @finish="isCountDownShow = false"/>
+           <van-button
+           slot="button"
+           size="small"
+           type="primary"
+           v-else
+           @click="SendSmsCode">发送验证码</van-button>
         </van-field>
       </van-cell-group>
       <div class="btn-wrap">
@@ -16,16 +36,17 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+import { login, getSmsCode } from '@/api/user'
 export default {
   name: 'LoginPage',
   data () {
     return {
-      // 用户登录信息
+      // 1.获取用户登录信息
       user: {
         mobile: '', // 手机号
         code: ''// 验证码
-      }
+      },
+      isCountDownShow: false // 倒计时是否显示
     }
   },
   methods: {
@@ -46,6 +67,26 @@ export default {
         console.log('登录失败', error)
         this.$toast.fail('登录失败')
       }
+    },
+    async SendSmsCode () {
+      // 1.获取手机号
+      const { mobile } = this.user
+      // 2.
+      // 3.发送验证码请求
+      try {
+        // 显示倒计时
+        this.isCountDownShow = true
+        // 发请求
+        await getSmsCode(mobile)
+      } catch (error) {
+        console.log(error)
+        // 发送失败 关闭倒计时
+        this.isCountDownShow = false
+        if (error.response.status === 429) {
+          this.$toast('您的操作过于频繁')
+        }
+      }
+      this.$toast('发送失败')
     }
   }
 }
