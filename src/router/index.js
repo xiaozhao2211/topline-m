@@ -15,7 +15,25 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('@/views/tab_bar/index.vue')
+    component: () => import('@/views/tab_bar'),
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/home')
+      },
+      {
+        path: 'qa',
+        component: () => import('@/views/qa')
+      },
+      {
+        path: 'video',
+        component: () => import('@/views/video')
+      },
+      {
+        path: 'my',
+        component: () => import('@/views/my')
+      }
+    ]
   }]
 
 const router = new VueRouter({
