@@ -89,7 +89,7 @@ export default {
       // 3.请求登录
       try {
         let result = await login(user)
-        console.log(result)
+        this.$store.commit('setUser', result.data.data)
         this.$toast.success('登录成功')
       } catch (error) {
         console.log('登录失败', error)
