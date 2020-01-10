@@ -15,3 +15,10 @@ export const getSmsCode = mobile => {
     method: 'get'
   })
 }
+// 获取当前登录用户信息
+export const getUserInfo = () => {
+  return request({
+    url: '/app/v1_0/user',
+    method: 'get'
+  })
+}

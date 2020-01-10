@@ -2,7 +2,7 @@
 // 存储token
 export const setItem = (name, value) => {
   const data = typeof value === 'object' ? JSON.stringify(value) : value
-  window.localStorage.setItem(name, JSON.stringify(data))
+  window.localStorage.setItem(name, data)
 }
 // 获取token
 export const getItem = name => {
