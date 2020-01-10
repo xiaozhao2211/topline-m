@@ -5,16 +5,24 @@
 
     <!-- 频道列表 -->
     <van-tabs v-model="active">
-      <van-tab :title="item.name"
+      <van-tab
+      :title="item.name"
       v-for="item in UserChannels"
-      :key="item.id"></van-tab>
+      :key="item.id"
+      >
+      <articles-list/>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user'
+import ArticlesList from './components/articles-list'
 export default {
+  components: {
+    ArticlesList
+  },
   data () {
     return {
       active: 0, // 默认选中第一项

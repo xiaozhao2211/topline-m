@@ -15,7 +15,9 @@ import {
   Cell,
   Dialog,
   Tab,
-  Tabs
+  Tabs,
+  List,
+  PullRefresh
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -33,3 +35,5 @@ Vue.use(NavBar)
   .use(Dialog)
   .use(Tab)
   .use(Tabs)
+  .use(List)
+  .use(PullRefresh)
