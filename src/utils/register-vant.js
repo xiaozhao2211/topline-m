@@ -12,7 +12,8 @@ import {
   GridItem,
   Icon,
   CellGroup,
-  Cell
+  Cell,
+  Dialog
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -27,3 +28,4 @@ Vue.use(NavBar)
   .use(Icon)
   .use(CellGroup)
   .use(Cell)
+  .use(Dialog)

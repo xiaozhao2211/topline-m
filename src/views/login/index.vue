@@ -91,6 +91,7 @@ export default {
         let result = await login(user)
         this.$store.commit('setUser', result.data.data)
         this.$toast.success('登录成功')
+        this.$router.push('/')
       } catch (error) {
         console.log('登录失败', error)
         this.$toast.fail('登录失败')

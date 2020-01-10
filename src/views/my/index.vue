@@ -57,7 +57,7 @@
       <van-cell title="消息通知" is-link />
       <van-cell title="小智同学" is-link />
     </van-cell-group>
-    <van-cell-group v-if="$store.state.user">
+    <van-cell-group v-if="$store.state.user" @click="outLogin">
       <van-cell
         style="text-align:center;"
         title="退出登录"
@@ -84,6 +84,17 @@ export default {
       } catch (error) {
         this.$toast('获取数据失败')
       }
+    },
+    // 退出登录
+    outLogin () {
+      this.$dialog.confirm({
+        title: '退出提示',
+        message: '确认退出吗？'
+      }).then(() => {
+        this.$store.commit('setUser', null)
+      }).catch(() => {
+        this.$toast('已取消退出')
+      })
     }
   },
   created () {
