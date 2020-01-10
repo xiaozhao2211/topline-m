@@ -13,7 +13,9 @@ import {
   Icon,
   CellGroup,
   Cell,
-  Dialog
+  Dialog,
+  Tab,
+  Tabs
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -29,3 +31,5 @@ Vue.use(NavBar)
   .use(CellGroup)
   .use(Cell)
   .use(Dialog)
+  .use(Tab)
+  .use(Tabs)
