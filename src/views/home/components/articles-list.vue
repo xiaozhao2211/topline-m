@@ -7,38 +7,51 @@
       @load="onLoad"
       >
         <van-cell
-         v-for="item in list"
-         :key="item"
-         :title="item"></van-cell>
+         v-for="(item,index) in list"
+         :key="index"
+         :title="item.title"></van-cell>
       </van-list>
   </van-pull-refresh>
 </template>
 
 <script>
+import { getArticles } from '@/api/articles'
 export default {
+  props: {
+    channelList: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       isLoading: false,
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      timestamp: null
     }
   },
   methods: {
-    onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+    async onLoad () {
+      // 1. 请求获取数据
+      const { data } = await getArticles({
+        channel_id: this.channelList.id,
+        timestamp: this.timestamp || Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳，请求历史推荐传指定的时间戳
+        with_top: 1
+      })
+      // console.log(data)
+      // 2. 把请求获取到的数据添加到数组列表中
+      const results = data.data.results
+      this.list.push(...results)
+      // 3. 加载状态结束
+      this.loading = false
+      // 4. 数据全部加载完
+      if (results.length) {
+        this.timestamp = data.data.pre_timestamp
+      } else {
+        this.finished = true
+      }
     },
     // 下拉刷新调用 onRefresh
     onRefresh () {

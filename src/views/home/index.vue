@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar title="首页" />
+    <van-nav-bar title="首页"/>
 
     <!-- 频道列表 -->
     <van-tabs v-model="active">
@@ -10,7 +10,7 @@
       v-for="item in UserChannels"
       :key="item.id"
       >
-      <articles-list/>
+      <articles-list :channelList="item" />
       </van-tab>
     </van-tabs>
   </div>
@@ -42,6 +42,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less' scoped>
 
 </style>
