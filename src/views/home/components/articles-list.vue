@@ -54,12 +54,20 @@ export default {
       }
     },
     // 下拉刷新调用 onRefresh
-    onRefresh () {
-      setTimeout(() => {
-        this.$toast('刷新成功')
-        this.isLoading = false
-        this.count++
-      }, 500)
+    async onRefresh () {
+      // 1. 请求获取数据
+      const { data } = await getArticles({
+        channel_id: this.channelList.id,
+        timestamp: Date.now(),
+        with_top: 1
+      })
+      // 2. 如果有最新数据，则把数据放到列表的顶部
+      const { results } = data.data
+      this.list.unshift(...results)
+      // 3. 关闭下拉刷新的 loading 状态
+      this.isLoading = false
+      // 提示
+      this.$toast(`已更新${results.length}条数据`)
     }
   }
 }
