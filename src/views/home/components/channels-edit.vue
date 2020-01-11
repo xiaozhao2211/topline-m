@@ -19,6 +19,7 @@
          v-for="channel in remainingChannels"
          :key="channel.id"
          :text="channel.name"
+         @click="onChannelAdd(channel)"
         />
       </van-grid>
   </div>
@@ -28,6 +29,7 @@
 import { getAllChannels } from '@/api/channels'
 export default {
   props: {
+    // 我的频道
     channelList: {
       type: Array,
       required: true
@@ -39,6 +41,11 @@ export default {
     }
   },
   methods: {
+    // 添加频道
+    onChannelAdd (channel) {
+      // 将点击的频道push到我的频道列表中 channelList
+      this.channelList.push(channel)
+    },
     // 获取所有频道
     async loadAllChannels () {
       const { data } = await getAllChannels()
