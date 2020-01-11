@@ -6,9 +6,9 @@
       </van-cell>
       <van-grid :gutter="10">
         <van-grid-item
-         v-for="value in 8"
-         :key="value"
-         text="文字"
+         v-for="channel in channelList"
+         :key="channel.id"
+         :text="channel.name"
         />
       </van-grid>
 
@@ -26,7 +26,12 @@
 
 <script>
 export default {
-
+  props: {
+    channelList: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 

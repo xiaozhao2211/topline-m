@@ -27,7 +27,7 @@
      close-icon-position="top-left"
      :style="{ height: '93%' }"
      >
-     <channels-edit/>
+     <channels-edit :channelList=" UserChannels"/>
      </van-popup>
   </div>
 </template>
