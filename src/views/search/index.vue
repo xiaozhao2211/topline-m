@@ -9,28 +9,28 @@
         show-action
         background="#3296fa"
         @search="onSearch"
-        @cancel="onCancel"
+        @cancel="$router.back()"
       />
     </form>
 
+    <!-- 搜索结果 -->
+    <search-result v-if="isResultShow"/>
+
     <!-- 联想建议 -->
-    <van-cell-group>
-      <van-cell title="单元格"  icon="search" />
+    <van-cell-group v-else-if="searchText">
+      <van-cell title="联想建议"  icon="search" />
     </van-cell-group>
 
     <!-- 历史记录 -->
-    <van-cell title="历史记录">
-      <span>全部删除</span> &nbsp;&nbsp; <span>完成</span>
-      <van-icon name="delete" />
-    </van-cell>
-    <van-cell-group>
+    <van-cell-group v-else>
+      <van-cell title="历史记录">
+        <span>全部删除</span> &nbsp;&nbsp; <span>完成</span>
+        <van-icon name="delete" />
+      </van-cell>
       <van-cell title="单元格">
         <van-icon name="close" />
       </van-cell>
     </van-cell-group>
-
-    <!-- 搜索结果 -->
-    <search-result/>
   </div>
 </template>
 
@@ -43,12 +43,14 @@ export default {
   },
   data () {
     return {
-      searchText: ''
+      searchText: '', // 搜索内容
+      isResultShow: false// 样式显示状态
     }
   },
   methods: {
-    onSearch () {},
-    onCancel () {}
+    onSearch () {
+      this.isResultShow = true
+    }
   },
   created () {}
 }
