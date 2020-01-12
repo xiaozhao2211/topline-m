@@ -18,7 +18,8 @@ import {
   Tabs,
   List,
   PullRefresh,
-  Popup
+  Popup,
+  Search
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -39,3 +40,4 @@ Vue.use(NavBar)
   .use(List)
   .use(PullRefresh)
   .use(Popup)
+  .use(Search)
