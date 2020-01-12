@@ -40,6 +40,7 @@
 import { getUserChannels } from '@/api/user'
 import ArticlesList from './components/articles-list'
 import ChannelsEdit from './components/channels-edit'
+import { getItem } from '@/utils/storage'
 export default {
   components: {
     ArticlesList,
@@ -55,8 +56,24 @@ export default {
   methods: {
     // 获取频道列表
     async loadUserChannels () {
-      const { data } = await getUserChannels()
-      this.UserChannels = data.data.channels
+      // const { data } = await getUserChannels()
+      // this.UserChannels = data.data.channels
+      // 1、变量接收频道
+      let channels = []
+
+      // 2、获取本地存储频道
+      const loadUserChannels = getItem('user-channels')
+
+      // 3、本地存储存在，用本地
+      if (loadUserChannels) {
+        channels = loadUserChannels
+      } else {
+        // 4、本地没有，调接口获取频道
+        const { data } = await getUserChannels()
+        channels = data.data.channels
+      }
+      // 5、最后，把数据赋值到当前组件中
+      this.UserChannels = channels
     }
   },
   created () {

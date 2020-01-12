@@ -43,6 +43,7 @@
 
 <script>
 import { getAllChannels } from '@/api/channels'
+import { setItem } from '@/utils/storage'
 export default {
   props: {
     // 我的频道
@@ -59,6 +60,12 @@ export default {
     return {
       allChannels: [], // 接收所有频道
       isEdit: false// 编辑状态
+    }
+  },
+  watch: {
+    // 当 channelList 发生改变的时候，将该数据存储到本地存储
+    channelList () {
+      setItem('user-channels', this.channelList)
     }
   },
   methods: {
