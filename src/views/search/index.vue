@@ -20,11 +20,12 @@
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchText">
       <van-cell
-      :title="item"
       icon="search"
       v-for="(item,index) in suggestions"
       :key="index"
-      />
+      >
+      <div slot="title" v-html="highLight(item)"></div>
+      </van-cell>
     </van-cell-group>
 
     <!-- 历史记录 -->
@@ -57,6 +58,12 @@ export default {
     }
   },
   methods: {
+    // 联想建议高亮处理
+    highLight (str) {
+      return str.toLowerCase()
+        .replace(this.searchText.toLowerCase(),
+          `<span style="color:red">${this.searchText}</span>`)
+    },
     onSearch () {
       this.isResultShow = true
     },
