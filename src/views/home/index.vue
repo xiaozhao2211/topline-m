@@ -27,7 +27,11 @@
      close-icon-position="top-left"
      :style="{ height: '93%' }"
      >
-     <channels-edit :channelList=" UserChannels"/>
+     <channels-edit
+     :channelList=" UserChannels"
+     v-model="active"
+     @close="isChannelEditShow=false"
+     />
      </van-popup>
   </div>
 </template>

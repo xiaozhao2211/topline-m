@@ -14,10 +14,11 @@
       </van-cell>
       <van-grid :gutter="10">
         <van-grid-item
-         v-for="channel in channelList"
+         v-for="(channel,index) in channelList"
          :key="channel.id"
-         :text="channel.name"
+         @click="onDelChannel(index)"
         >
+        <span class="text" slot="text" :class="{ active: value === index }">{{channel.name}}</span>
           <van-icon
           name="close"
           slot="icon"
@@ -48,6 +49,10 @@ export default {
     channelList: {
       type: Array,
       required: true
+    },
+    value: {
+      type: Number,
+      required: true
     }
   },
   data () {
@@ -57,6 +62,17 @@ export default {
     }
   },
   methods: {
+    // 编辑我的频道
+    onDelChannel (index) {
+      // 编辑状态 删除频道
+      if (this.isEdit) {
+        this.channelList.splice(index, 1)
+      } else {
+        // 非编辑状态 切换频道
+        this.$emit('input', index)
+        this.$emit('close')
+      }
+    },
     // 添加频道
     onChannelAdd (channel) {
       // 将点击的频道push到我的频道列表中 channelList
@@ -97,5 +113,12 @@ export default {
     right: -45px;
     top: -20px;
  }
+ .text {
+   font-size: 14px;
+   color: #646566;
+ }
+ .active {
+    color: red;
+  }
 }
 </style>
