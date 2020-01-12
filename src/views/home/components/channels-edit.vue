@@ -23,7 +23,7 @@
           name="close"
           slot="icon"
           size="18"
-          v-show="isEdit"
+          v-show="isEdit && index!==0"
           />
         </van-grid-item>
       </van-grid>
@@ -65,7 +65,7 @@ export default {
     // 编辑我的频道
     onDelChannel (index) {
       // 编辑状态 删除频道
-      if (this.isEdit) {
+      if (this.isEdit && index !== 0) {
         this.channelList.splice(index, 1)
       } else {
         // 非编辑状态 切换频道
