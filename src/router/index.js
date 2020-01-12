@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/login'
 Vue.use(VueRouter)
 
 const routes = [
-//   {
-//   path: '/',
-//   redirect: '/login'
-// },
+  {
+    // 搜索
+    path: '/search',
+    component: () => import('@/views/search')
+  },
   {
   // 登录
     path: '/login',
-    component: Login
+    component: () => import('@/views/login')
   },
   {
     path: '/',
