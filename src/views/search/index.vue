@@ -10,6 +10,7 @@
         background="#3296fa"
         @search="onSearch"
         @cancel="$router.back()"
+        @input="onSearchInput"
       />
     </form>
 
@@ -18,7 +19,12 @@
 
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchText">
-      <van-cell title="联想建议"  icon="search" />
+      <van-cell
+      :title="item"
+      icon="search"
+      v-for="(item,index) in suggestions"
+      :key="index"
+      />
     </van-cell-group>
 
     <!-- 历史记录 -->
@@ -36,6 +42,8 @@
 
 <script>
 import SearchResult from './components/search-result'
+import { getSuggestions } from '@/api/search'
+import { debounce } from 'loadsh'
 export default {
   props: {},
   components: {
@@ -44,13 +52,24 @@ export default {
   data () {
     return {
       searchText: '', // 搜索内容
-      isResultShow: false// 样式显示状态
+      isResultShow: false, // 样式显示状态
+      suggestions: []// 联想建议数据
     }
   },
   methods: {
     onSearch () {
       this.isResultShow = true
-    }
+    },
+    // 获取联想建议
+    onSearchInput: debounce(async function () {
+      // 判断 不能为空
+      const searchText = this.searchText
+      if (!searchText) {
+        return
+      }
+      const { data } = await getSuggestions(searchText)
+      this.suggestions = data.data.options
+    }, 300)
   },
   created () {}
 }
