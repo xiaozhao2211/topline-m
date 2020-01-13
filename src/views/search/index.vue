@@ -8,7 +8,7 @@
         placeholder="请输入搜索关键词"
         show-action
         background="#3296fa"
-        @search="onSearch"
+        @search="onSearch(searchText)"
         @cancel="$router.back()"
         @input="onSearchInput"
         @focus="isResultShow=false"
@@ -24,6 +24,7 @@
       icon="search"
       v-for="(item,index) in suggestions"
       :key="index"
+      @click="onSearch(item)"
       >
       <div slot="title" v-html="highLight(item)"></div>
       </van-cell>
@@ -39,6 +40,7 @@
       :title="item"
       v-for="(item,index) in searchHistories "
       :key="index"
+      @click="onSearch(item)"
       >
         <van-icon name="close" />
       </van-cell>
@@ -76,7 +78,8 @@ export default {
         .replace(this.searchText.toLowerCase(),
           `<span style="color:red">${this.searchText}</span>`)
     },
-    onSearch () {
+    onSearch (q) {
+      this.searchText = q
       const index = this.searchHistories.indexOf(this.searchText)
       if (index !== -1) {
         this.searchHistories.splice(index, 1)
