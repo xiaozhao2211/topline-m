@@ -4,6 +4,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    // 文章详情
+    path: '/article/:articleId',
+    component: () => import('@/views/article'),
+    props: true
+  },
+  {
     // 搜索
     path: '/search',
     component: () => import('@/views/search')
