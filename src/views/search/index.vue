@@ -35,7 +35,11 @@
         <span>全部删除</span> &nbsp;&nbsp; <span>完成</span>
         <van-icon name="delete" />
       </van-cell>
-      <van-cell title="单元格">
+      <van-cell
+      :title="item"
+      v-for="(item,index) in searchHistories "
+      :key="index"
+      >
         <van-icon name="close" />
       </van-cell>
     </van-cell-group>
@@ -46,6 +50,7 @@
 import SearchResult from './components/search-result'
 import { getSuggestions } from '@/api/search'
 import { debounce } from 'loadsh'
+import { setItem, getItem } from '@/utils/storage'
 export default {
   props: {},
   components: {
@@ -55,7 +60,13 @@ export default {
     return {
       searchText: '', // 搜索内容
       isResultShow: false, // 样式显示状态
-      suggestions: []// 联想建议数据
+      suggestions: [], // 联想建议数据
+      searchHistories: getItem('search-history') || []// 搜索历史
+    }
+  },
+  watch: {
+    searchHistories (newVal) {
+      setItem('search-history', newVal)
     }
   },
   methods: {
@@ -66,6 +77,14 @@ export default {
           `<span style="color:red">${this.searchText}</span>`)
     },
     onSearch () {
+      console.log(this.searchHistories)
+      console.log(this.searchText)
+
+      const index = this.searchHistories.indexOf(this.searchText)
+      if (index !== -1) {
+        this.searchHistories.splice(index, 1)
+      }
+      this.searchHistories.unshift(this.searchText)
       this.isResultShow = true
     },
     // 获取联想建议
