@@ -1,12 +1,24 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar title="首页" fixed/>
+    <!-- <van-nav-bar title="首页" fixed/> -->
+    <div class="nav-bar">
+      <div class="logo"></div>
+      <van-button
+        class="search-btn"
+        round
+        type="info"
+        size="small"
+        icon="search"
+        @click="$router.push('/search')"
+      >搜索</van-button>
+    </div>
 
     <!-- 频道列表 -->
     <van-tabs v-model="active">
       <!-- 点击面包按钮展示弹出层 -->
       <van-icon
+      class="wap-nav"
       name="wap-nav"
       slot="nav-right"
       @click="isChannelEditShow= true"/>
@@ -86,6 +98,29 @@ export default {
 .home-container{
   padding-top: 90px;
   padding-bottom: 50px;
+  .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    height: 46px;
+    background-color: #3196fa;
+    z-index: 1;
+    .logo {
+      background: url("./logo.png") no-repeat;
+      background-size: cover;
+      width: 100px;
+      height: 30px;
+    }
+    .search-btn {
+      background-color: #5babfb;
+      width: 50%;
+    }
+  }
 /deep/ .van-tabs__wrap {
   position: fixed;
   top:46px;
@@ -93,7 +128,7 @@ export default {
   right: 0;
   z-index: 2
 }
-.van-icon {
+.wap-nav {
   position: fixed;
   right: 0;
   line-height: 44px;

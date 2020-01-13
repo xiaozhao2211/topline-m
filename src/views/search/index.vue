@@ -77,9 +77,6 @@ export default {
           `<span style="color:red">${this.searchText}</span>`)
     },
     onSearch () {
-      console.log(this.searchHistories)
-      console.log(this.searchText)
-
       const index = this.searchHistories.indexOf(this.searchText)
       if (index !== -1) {
         this.searchHistories.splice(index, 1)
