@@ -14,13 +14,14 @@
       class="loading"
       color="#1989fa"
       vertical
+      v-if="loading"
     >
       <slot>加载中...</slot>
     </van-loading>
     <!-- /加载中 -->
 
     <!-- 文章详情 -->
-    <div class="detail">
+    <div class="detail" v-else-if="article.title">
       <h3 class="title">{{article.title}}</h3>
       <div class="author-wrap">
         <div class="base-info">
@@ -42,7 +43,7 @@
     <!-- /文章详情 -->
 
     <!-- 加载失败提示 -->
-    <div class="error">
+    <div class="error" v-else>
       <img src="./no-network.png" alt="no-network">
       <p class="text">亲，网络不给力哦~</p>
       <van-button
@@ -93,7 +94,8 @@ export default {
   },
   data () {
     return {
-      article: {}// 文章详情
+      article: {}, // 文章详情
+      loading: true
     }
   },
   computed: {},
@@ -106,12 +108,13 @@ export default {
   methods: {
     // 请求指定id文章数据
     async loadArticle () {
+      this.loading = true
       try {
         const { data } = await getArticleById(this.articleId)
         this.article = data.data
       } catch (error) {
-
       }
+      this.loading = false
     }
   }
 }
