@@ -113,20 +113,28 @@ export default {
   },
   mounted () {},
   methods: {
-    // 收藏于取消收藏
+    // 收藏与取消收藏
     async onCollect () {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '操作中...',
+        forbidClick: true // 是否禁止背景点击
+      })
+
       try {
+        // article.is_collected为true 已收藏 则取消收藏
         if (this.article.is_collected) {
           await deleteCollect(this.articleId)
           this.article.is_collected = false
           this.$toast.success('取消收藏')
         } else {
+          // 添加收藏
           await addCollect(this.articleId)
           this.article.is_collected = true
           this.$toast.success('收藏成功')
         }
       } catch (error) {
-
+        this.$toast.fail('操作失败')
       }
     },
 
