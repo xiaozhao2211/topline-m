@@ -17,3 +17,22 @@ export const getArticleById = articleId => {
     method: 'get'
   })
 }
+
+// 收藏
+export const addCollect = articleId => {
+  return request({
+    url: '/app/v1_0/article/collections',
+    method: 'post',
+    data: {
+      target: articleId
+    }
+  })
+}
+
+// 取消收藏
+export const deleteCollect = articleId => {
+  return request({
+    url: `/app/v1_0/article/collections/${articleId}`,
+    method: 'delete'
+  })
+}

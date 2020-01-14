@@ -50,6 +50,7 @@
         class="btn"
         type="default"
         size="small"
+        @click="loadArticle"
       >点击重试</van-button>
     </div>
     <!-- /加载失败提示 -->
@@ -69,7 +70,8 @@
       />
       <van-icon
         color="orange"
-        name="star"
+        :name="article.is_collected ? 'star' : 'star-o'"
+        @click="onCollect"
       />
       <van-icon
         color="#e5645f"
@@ -82,7 +84,12 @@
 </template>
 
 <script>
-import { getArticleById } from '@/api/articles'
+import {
+  getArticleById,
+  addCollect,
+  deleteCollect
+} from '@/api/articles'
+
 export default {
   name: 'ArticlePage',
   components: {},
@@ -106,6 +113,23 @@ export default {
   },
   mounted () {},
   methods: {
+    // 收藏于取消收藏
+    async onCollect () {
+      try {
+        if (this.article.is_collected) {
+          await deleteCollect(this.articleId)
+          this.article.is_collected = false
+          this.$toast.success('取消收藏')
+        } else {
+          await addCollect(this.articleId)
+          this.article.is_collected = true
+          this.$toast.success('收藏成功')
+        }
+      } catch (error) {
+
+      }
+    },
+
     // 请求指定id文章数据
     async loadArticle () {
       this.loading = true
