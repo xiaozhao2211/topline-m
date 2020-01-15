@@ -65,6 +65,21 @@
     </div>
     <!-- /加载失败提示 -->
 
+    <!-- 文章评论 -->
+    <van-cell title="全部评论" :border="false" />
+     <van-list
+        v-model="articleComment.loading"
+        :finished="articleComment.finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+      <article-comment
+      v-for="(comment, index) in articleComment.list"
+      :key="index"
+      :comment="comment"/>
+     </van-list>
+    <!-- /文章评论 -->
+
     <!-- 底部区域 -->
     <div class="footer">
       <van-button
@@ -76,7 +91,7 @@
       <van-icon
         class="comment-icon"
         name="comment-o"
-        info="9"
+        :info="articleComment.totalCount"
       />
       <van-icon
         color="orange"
@@ -103,10 +118,14 @@ import {
   deleteLike
 } from '@/api/articles'
 import { addFollow, deleteFollow } from '@/api/user'
+import { getComments } from '@/api/comment'
+import ArticleComment from './components/article-comment'
 
 export default {
   name: 'ArticlePage',
-  components: {},
+  components: {
+    ArticleComment
+  },
   props: {
     articleId: {
       type: String,
@@ -117,7 +136,14 @@ export default {
     return {
       article: {}, // 文章详情
       loading: true,
-      isFollowLoading: false // 关注按钮的 loading 状态
+      isFollowLoading: false, // 关注按钮的 loading 状态
+      articleComment: {
+        list: [],
+        loading: false,
+        finished: false,
+        offset: null, // 请求下一页数据的页码
+        totalCount: 0 // 总数据条数
+      }
     }
   },
   computed: {},
@@ -128,6 +154,36 @@ export default {
   },
   mounted () {},
   methods: {
+    // 获取文章评论
+    async onLoad () {
+      const articleComment = this.articleComment
+
+      // 1.请求数据
+      const { data } = await getComments({
+        type: 'a', // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
+        source: this.articleId, // 源id，文章id或评论id
+        offset: articleComment.offset,
+        limit: 10
+      })
+
+      // 2.将数据添加到列表中
+      const { results } = data.data
+      articleComment.list.push(...results)
+
+      // 更新总数据条数
+      articleComment.totalCount = data.data.total_count
+
+      // 3. 将加载更多的 loading 设置为 false
+      articleComment.loading = false
+
+      // 4. 判断是否还有数据
+      if (results.length) {
+        articleComment.offset = data.data.last_id // 更新获取下一页数据的页码
+      } else {
+        articleComment.finished = true // 没有数据了，关闭加载更多
+      }
+    },
+
     // 关注与取消关注
     async onFollow () {
       this.isFollowLoading = true
