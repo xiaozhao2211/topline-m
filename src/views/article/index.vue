@@ -36,7 +36,15 @@
             <p class="time">{{article.pubdate}}</p>
           </div>
         </div>
-        <van-button class="follow-btn" type="info" size="small" round>+ 关注</van-button>
+        <van-button
+        v-if="!$store.state.user || article.aut_id !== $store.state.user.id"
+        class="follow-btn"
+        :type="article.is_followed ? 'default' : 'info'"
+        size="small"
+        round
+        >
+        {{article.is_followed ? '关注' : '+ 关注'}}
+        </van-button>
       </div>
       <div class="markdown-body" v-html="article.content"></div>
     </div>
@@ -135,7 +143,7 @@ export default {
           this.$toast.success('成功点赞')
         }
       } catch (error) {
-
+        this.$toast.fail('操作失败')
       }
     },
 
