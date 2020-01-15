@@ -42,8 +42,9 @@
         :type="article.is_followed ? 'default' : 'info'"
         size="small"
         round
+        @click="onFollow"
         >
-        {{article.is_followed ? '关注' : '+ 关注'}}
+        {{article.is_followed ? '已关注' : '+ 关注'}}
         </van-button>
       </div>
       <div class="markdown-body" v-html="article.content"></div>
@@ -58,6 +59,7 @@
         class="btn"
         type="default"
         size="small"
+        :loading="isFollowLoading"
         @click="loadArticle"
       >点击重试</van-button>
     </div>
@@ -100,6 +102,7 @@ import {
   addLike,
   deleteLike
 } from '@/api/articles'
+import { addFollow, deleteFollow } from '@/api/user'
 
 export default {
   name: 'ArticlePage',
@@ -113,7 +116,8 @@ export default {
   data () {
     return {
       article: {}, // 文章详情
-      loading: true
+      loading: true,
+      isFollowLoading: false // 关注按钮的 loading 状态
     }
   },
   computed: {},
@@ -124,6 +128,23 @@ export default {
   },
   mounted () {},
   methods: {
+    // 关注与取消关注
+    async onFollow () {
+      this.isFollowLoading = true
+      const authorId = this.article.aut_id
+      try {
+        if (this.article.is_followed) {
+          await deleteFollow(authorId)
+        } else {
+          await addFollow(authorId)
+        }
+        this.article.is_followed = !this.article.is_followed
+      } catch (error) {
+        this.$toast.fail('操作失败')
+      }
+      this.isFollowLoading = false
+    },
+
     // 点赞与取消
     async onAttitude () {
       this.$toast.loading({
