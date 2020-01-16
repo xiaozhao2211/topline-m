@@ -128,6 +128,7 @@
     style="height: 95%"
     >
     <reply-comment
+    v-if="isReplyShow"
     @click-close="isReplyShow = false"
     :comment="currentComment"
     />
