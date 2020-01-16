@@ -87,6 +87,7 @@
         type="default"
         round
         size="small"
+        @click="isPostShow=true"
       >写评论</van-button>
       <van-icon
         class="comment-icon"
@@ -106,6 +107,15 @@
       <van-icon class="share-icon" name="share" />
     </div>
     <!-- /底部区域 -->
+
+    <!-- 发布文章评论 -->
+    <van-popup
+    v-model="isPostShow"
+    position="bottom"
+    >
+    <post-comment @closePopup="isPostShow = false"/>
+    </van-popup>
+    <!-- /发布文章评论 -->
   </div>
 </template>
 
@@ -120,11 +130,13 @@ import {
 import { addFollow, deleteFollow } from '@/api/user'
 import { getComments } from '@/api/comment'
 import ArticleItem from './components/article-item'
+import PostComment from './components/post-comment'
 
 export default {
   name: 'ArticlePage',
   components: {
-    ArticleItem
+    ArticleItem,
+    PostComment
   },
   props: {
     articleId: {
@@ -137,6 +149,8 @@ export default {
       article: {}, // 文章详情
       loading: true,
       isFollowLoading: false, // 关注按钮的 loading 状态
+      isPostShow: false,
+
       articleComment: {
         list: [],
         loading: false,
