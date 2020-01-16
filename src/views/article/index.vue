@@ -73,7 +73,7 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-      <article-comment
+      <article-item
       v-for="(comment, index) in articleComment.list"
       :key="index"
       :comment="comment"/>
@@ -119,12 +119,12 @@ import {
 } from '@/api/articles'
 import { addFollow, deleteFollow } from '@/api/user'
 import { getComments } from '@/api/comment'
-import ArticleComment from './components/article-comment'
+import ArticleItem from './components/article-item'
 
 export default {
   name: 'ArticlePage',
   components: {
-    ArticleComment
+    ArticleItem
   },
   props: {
     articleId: {
