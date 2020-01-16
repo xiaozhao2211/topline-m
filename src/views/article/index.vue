@@ -76,7 +76,9 @@
       <article-item
       v-for="(comment, index) in articleComment.list"
       :key="index"
-      :comment="comment"/>
+      :comment="comment"
+      @reply-comment="onReplyComment"
+      />
      </van-list>
     <!-- /文章评论 -->
 
@@ -118,6 +120,19 @@
     />
     </van-popup>
     <!-- /发布文章评论 -->
+
+    <!-- 回复文章评论 -->
+    <van-popup
+    v-model="isReplyShow"
+    position="bottom"
+    style="height: 95%"
+    >
+    <reply-comment
+    @click-close="isReplyShow = false"
+    :comment="currentComment"
+    />
+    </van-popup>
+    <!-- /回复文章评论 -->
   </div>
 </template>
 
@@ -133,12 +148,14 @@ import { addFollow, deleteFollow } from '@/api/user'
 import { getComments, addComments } from '@/api/comment'
 import ArticleItem from './components/article-item'
 import PostComment from './components/post-comment'
+import ReplyComment from './components/reply-comment'
 
 export default {
   name: 'ArticlePage',
   components: {
     ArticleItem,
-    PostComment
+    PostComment,
+    ReplyComment
   },
   props: {
     articleId: {
@@ -152,6 +169,8 @@ export default {
       loading: true,
       isFollowLoading: false, // 关注按钮的 loading 状态
       isPostShow: false,
+      isReplyShow: false,
+      currentComment: {}, // 点击回复的那个评论对象
       articleComment: {
         list: [],
         loading: false,
@@ -169,6 +188,12 @@ export default {
   },
   mounted () {},
   methods: {
+    // 回复评论
+    onReplyComment (comment) {
+      // 将子组件中传给我评论对象存储到当前组件
+      this.currentComment = comment
+      this.isReplyShow = true
+    },
     // 发布评论
     async onAddComment (postMessage) {
       // 1.非空校验
@@ -197,6 +222,8 @@ export default {
       // 5.清空输入
       postMessage = ''
 
+      // 6.改变评论数量
+      this.articleComment.totalCount++
       this.$toast.success('发布成功')
     },
 
