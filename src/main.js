@@ -5,6 +5,7 @@ import store from './store'
 import './utils/register-vant'
 import './utils/validation'
 import 'amfe-flexible'
+import './utils/datatime'
 
 import './styles/index.less'
 Vue.config.productionTip = false
