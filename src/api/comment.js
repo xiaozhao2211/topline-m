@@ -5,7 +5,16 @@ import request from '@/utils/request'
 export const getComments = params => {
   return request({
     url: '/app/v1_0/comments',
-    method: 'get',
+    method: 'GET',
     params
+  })
+}
+
+// 发布评论
+export const addComments = data => {
+  return request({
+    url: '/app/v1_0/comments',
+    method: 'POST',
+    data
   })
 }

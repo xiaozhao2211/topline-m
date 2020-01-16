@@ -113,7 +113,9 @@
     v-model="isPostShow"
     position="bottom"
     >
-    <post-comment @closePopup="isPostShow = false"/>
+    <post-comment
+    @closePopup="onAddComment"
+    />
     </van-popup>
     <!-- /发布文章评论 -->
   </div>
@@ -128,7 +130,7 @@ import {
   deleteLike
 } from '@/api/articles'
 import { addFollow, deleteFollow } from '@/api/user'
-import { getComments } from '@/api/comment'
+import { getComments, addComments } from '@/api/comment'
 import ArticleItem from './components/article-item'
 import PostComment from './components/post-comment'
 
@@ -150,7 +152,6 @@ export default {
       loading: true,
       isFollowLoading: false, // 关注按钮的 loading 状态
       isPostShow: false,
-
       articleComment: {
         list: [],
         loading: false,
@@ -168,6 +169,37 @@ export default {
   },
   mounted () {},
   methods: {
+    // 发布评论
+    async onAddComment (postMessage) {
+      // 1.非空校验
+      if (!postMessage.length) {
+        return
+      }
+      // 提示
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '发布中...',
+        forbidClick: true // 是否禁止背景点击
+      })
+      // 2.发请求
+      const { data } = await addComments({
+        target: this.articleId,
+        content: postMessage
+      })
+
+      // 3.将数据添加到list列表中
+      const results = data.data.new_obj
+      this.articleComment.list.unshift(results)
+
+      // 4.关闭弹层
+      this.isPostShow = false
+
+      // 5.清空输入
+      postMessage = ''
+
+      this.$toast.success('发布成功')
+    },
+
     // 获取文章评论
     async onLoad () {
       const articleComment = this.articleComment

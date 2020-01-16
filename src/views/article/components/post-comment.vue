@@ -15,7 +15,7 @@
       size="small"
       type="info"
       :disabled="!postMessage"
-      @click="$emit('closePopup')"
+      @click="$emit('closePopup',postMessage)"
       >发布</van-button>
     </div>
 </template>
