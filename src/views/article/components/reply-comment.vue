@@ -32,6 +32,18 @@
     <!-- /评论的回复列表 -->
 
     <!-- 底部 -->
+     <div class="footer">
+      <van-button
+        class="write-btn"
+        type="default"
+        round
+        size="small"
+      >写评论</van-button>
+      <van-icon
+        color="#e5645f"
+        name="good-job"
+      />
+    </div>
     <!-- /底部 -->
   </div>
 </template>
@@ -91,6 +103,33 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped lang="less">
+.comment-reply {
+  padding-bottom: 44px;
+}
+.reply-nav-bar {
+  background: #fff;
+  .van-icon, .van-nav-bar__title, .van-nav-bar__right {
+    color: #333;
+  }
+}
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 44px;
+  border-top: 1px solid #d8d8d8;
+  background-color: #fff;
+  .write-btn {
+    width: 160px;
+  }
+  .van-icon {
+    font-size: 20px;
+  }
+}
 </style>
