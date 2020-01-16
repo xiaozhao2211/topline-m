@@ -38,27 +38,44 @@
         type="default"
         round
         size="small"
-      >写评论</van-button>
+        @click="isReplyShow = true"
+      >写回复</van-button>
       <van-icon
         color="#e5645f"
         name="good-job"
       />
     </div>
     <!-- /底部 -->
+
+    <!-- 发布回复 -->
+    <van-popup
+    v-model="isReplyShow"
+    position="bottom"
+    >
+    <post-comment
+    @closePopup="onAddReply"/>
+    </van-popup>
+    <!-- /发布回复 -->
   </div>
 </template>
 
 <script>
 import ArticleItem from './article-item'
-import { getComments } from '@/api/comment'
+import { getComments, addComments } from '@/api/comment'
+import PostComment from './post-comment'
 export default {
   name: 'CommentReply',
   components: {
-    ArticleItem
+    ArticleItem,
+    PostComment
   },
   props: {
     comment: {
       type: Object,
+      required: true
+    },
+    articleId: {
+      type: [Object, Number, String],
       required: true
     }
   },
@@ -68,7 +85,8 @@ export default {
       loading: false,
       finished: false,
       offset: null, // 请求下一页数据的页码
-      limit: 20
+      limit: 20,
+      isReplyShow: false
     }
   },
   computed: {},
@@ -76,6 +94,40 @@ export default {
   created () {},
   mounted () {},
   methods: {
+    // 发布回复
+    async onAddReply (postMessage) {
+      // 1.非空校验
+      if (!postMessage.length) {
+        return
+      }
+      // 提示
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '发布中...',
+        forbidClick: true // 是否禁止背景点击
+      })
+      // 2.发请求
+      const { data } = await addComments({
+        target: this.comment.com_id.toString(),
+        content: postMessage,
+        art_id: this.articleId.toString()
+      })
+
+      // 3.将数据添加到list列表中
+      const results = data.data.new_obj
+      this.list.unshift(results)
+
+      // 4.关闭弹层
+      this.isReplyShow = false
+
+      // 5.清空输入
+      postMessage = ''
+
+      // 6.更新文章评论的回复总数量
+      this.comment.reply_count++
+      this.$toast.success('发布成功')
+    },
+    // 获取评论回复数据
     async onLoad () {
       // 1.请求获取数据
       const { data } = await getComments({

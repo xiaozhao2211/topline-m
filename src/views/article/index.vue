@@ -131,6 +131,7 @@
     v-if="isReplyShow"
     @click-close="isReplyShow = false"
     :comment="currentComment"
+    :article-id="articleId"
     />
     </van-popup>
     <!-- /回复文章评论 -->
