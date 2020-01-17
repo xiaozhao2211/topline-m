@@ -52,3 +52,11 @@ export const deleteFollow = userId => {
     method: 'delete'
   })
 }
+
+// 获取用户个人资料
+export const getUserProfile = () => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'GET'
+  })
+}

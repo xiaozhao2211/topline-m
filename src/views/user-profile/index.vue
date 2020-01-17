@@ -11,29 +11,40 @@
              round
              width="30"
              height="30"
-             src="https://img.yzcdn.cn/vant/cat.jpeg"
+             :src="user.photo"
             />
         </van-cell>
-        <van-cell title="昵称" value="内容" is-link/>
-        <van-cell title="性别" value="内容" is-link/>
-        <van-cell title="生日" value="内容" is-link/>
+        <van-cell title="昵称" :value="user.name" is-link/>
+        <van-cell title="性别" :value="user.gender" is-link/>
+        <van-cell title="生日" :value="user.birthday" is-link/>
     </van-cell-group>
   </div>
 </template>
 
 <script>
+import { getUserProfile } from '@/api/user'
 export default {
   name: 'UserProfile',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      user: ''// 用户个人信息
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.loadUserProfile()
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    // 展示用户个人信息
+    async loadUserProfile () {
+      const { data } = await getUserProfile()
+      this.user = data.data
+    }
+  }
 }
 </script>
 
