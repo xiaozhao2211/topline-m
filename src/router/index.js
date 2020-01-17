@@ -2,45 +2,49 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    // 文章详情
-    path: '/article/:articleId',
-    component: () => import('@/views/article'),
-    props: true
-  },
-  {
-    // 搜索
-    path: '/search',
-    component: () => import('@/views/search')
-  },
-  {
+const routes = [{
+// 编辑用户资料
+  path: '/user-profile',
+  component: () => import('@/views/user-profile')
+},
+{
+  // 文章详情
+  path: '/article/:articleId',
+  component: () => import('@/views/article'),
+  props: true
+},
+{
+  // 搜索
+  path: '/search',
+  component: () => import('@/views/search')
+},
+{
   // 登录
-    path: '/login',
-    component: () => import('@/views/login')
-  },
-  {
-    path: '/',
-    component: () => import('@/views/tab_bar'),
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/home')
-      },
-      {
-        path: 'qa',
-        component: () => import('@/views/qa')
-      },
-      {
-        path: 'video',
-        component: () => import('@/views/video')
-      },
-      {
-        path: 'my',
-        component: () => import('@/views/my')
-      }
-    ]
-  }]
+  path: '/login',
+  component: () => import('@/views/login')
+},
+{
+  path: '/',
+  component: () => import('@/views/tab_bar'),
+  children: [
+    {
+      path: '',
+      component: () => import('@/views/home')
+    },
+    {
+      path: 'qa',
+      component: () => import('@/views/qa')
+    },
+    {
+      path: 'video',
+      component: () => import('@/views/video')
+    },
+    {
+      path: 'my',
+      component: () => import('@/views/my')
+    }
+  ]
+}]
 
 const router = new VueRouter({
   routes
