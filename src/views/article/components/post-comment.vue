@@ -15,7 +15,7 @@
       size="small"
       type="info"
       :disabled="!postMessage"
-      @click="$emit('closePopup',postMessage)"
+      @click="clearInput"
       >发布</van-button>
     </div>
 </template>
@@ -34,7 +34,13 @@ export default {
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    // 清空输入
+    clearInput () {
+      this.$emit('closePopup', this.postMessage)
+      this.postMessage = ''
+    }
+  }
 }
 </script>
 
