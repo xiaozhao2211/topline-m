@@ -60,3 +60,12 @@ export const getUserProfile = () => {
     method: 'GET'
   })
 }
+
+// 更新用户个人资料
+export const updateUserProfile = data => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'PATCH',
+    data
+  })
+}
