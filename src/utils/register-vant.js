@@ -20,7 +20,8 @@ import {
   PullRefresh,
   Popup,
   Search,
-  Loading
+  Loading,
+  ActionSheet
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -43,3 +44,4 @@ Vue.use(NavBar)
   .use(Popup)
   .use(Search)
   .use(Loading)
+  .use(ActionSheet)

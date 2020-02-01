@@ -20,7 +20,12 @@
         is-link
         @click="isEditNameShow = true"
         />
-        <van-cell title="性别" :value="user.gender === 0 ? '男' : '女'" is-link/>
+        <van-cell
+        title="性别"
+        :value="user.gender === 0 ? '男' : '女'"
+        is-link
+        @click="isEditGenderShow = true"
+        />
         <van-cell title="生日" :value="user.birthday" is-link/>
     </van-cell-group>
      <!-- /用户信息 -->
@@ -34,6 +39,14 @@
          />
      </van-popup>
      <!-- /编辑昵称 -->
+
+     <!-- 编辑性别 -->
+     <van-action-sheet
+     v-model="isEditGenderShow"
+     cancel-text="取消"
+     :actions="actions"
+     @select="onGenderSelect" />
+     <!-- /编辑性别 -->
   </div>
 </template>
 
@@ -49,7 +62,12 @@ export default {
   data () {
     return {
       user: '', // 用户个人信息
-      isEditNameShow: false
+      isEditNameShow: false,
+      isEditGenderShow: false,
+      actions: [
+        { name: '男', value: 0 },
+        { name: '女', value: 1 }
+      ]
     }
   },
   computed: {},
@@ -76,7 +94,16 @@ export default {
         this.$toast.fail('更新失败')
       }
     },
-    // 保存用户名字
+    // 选择用户性别
+    async onGenderSelect ({ value }) {
+      // 请求更新
+      await this.saveProfile('gender', value)
+      // 更新视图
+      this.user.gender = value
+      // 关闭上拉菜单
+      this.isEditGenderShow = false
+    },
+    // 编辑用户名字
     async onSaveName (name) {
       // 提交更新
       await this.saveProfile('name', name)
