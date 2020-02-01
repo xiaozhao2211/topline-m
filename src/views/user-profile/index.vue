@@ -7,7 +7,7 @@
         @click="$router.back()"
     />
     <van-cell-group>
-        <van-cell title="头像" is-link>
+        <van-cell title="头像" is-link @click="onSelectFile">
             <van-image
              round
              width="30"
@@ -15,6 +15,7 @@
              :src="user.photo"
             />
         </van-cell>
+        <input type="file" hidden ref="file" @click="onChangeFile">
         <van-cell title="昵称"
         :value="user.name"
         is-link
@@ -93,13 +94,26 @@ export default {
       currentDate: new Date()
     }
   },
-  computed: {},
+  computed: {
+    file () {
+      return this.$refs['file']
+    }
+  },
   watch: {},
   created () {
     this.loadUserProfile()
   },
   mounted () {},
   methods: {
+    // 修改用户头像
+    onSelectFile () {
+      // 出发点击事件
+      this.file.click()
+    },
+    // 保存用户头像
+    async onChangeFile () {
+      console.log('选择头像')
+    },
     // 保存用户资料
     async saveProfile (field, value) {
       this.$toast.loading({

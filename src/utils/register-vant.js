@@ -22,7 +22,8 @@ import {
   Search,
   Loading,
   ActionSheet,
-  DatetimePicker
+  DatetimePicker,
+  ImagePreview
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -47,3 +48,4 @@ Vue.use(NavBar)
   .use(Loading)
   .use(ActionSheet)
   .use(DatetimePicker)
+  .use(ImagePreview)
