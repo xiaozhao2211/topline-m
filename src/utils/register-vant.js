@@ -21,7 +21,8 @@ import {
   Popup,
   Search,
   Loading,
-  ActionSheet
+  ActionSheet,
+  DatetimePicker
 } from 'vant'
 Vue.use(NavBar)
   .use(Field)
@@ -45,3 +46,4 @@ Vue.use(NavBar)
   .use(Search)
   .use(Loading)
   .use(ActionSheet)
+  .use(DatetimePicker)
