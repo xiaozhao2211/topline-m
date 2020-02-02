@@ -15,7 +15,7 @@
              :src="user.photo"
             />
         </van-cell>
-        <input type="file" hidden ref="file" @click="onChangeFile">
+        <input type="file" hidden ref="file" @change="onChangeFile">
         <van-cell title="昵称"
         :value="user.name"
         is-link
@@ -66,6 +66,22 @@
       />
      </van-popup>
      <!-- /编辑生日 -->
+
+     <!-- 头像预览 -->
+     <van-image-preview
+     v-model="isPreviewPhotoShow"
+     :images="previewImages"
+     @close="file.value = ''"
+     >
+       <van-nav-bar
+        slot="cover"
+        left-text="取消"
+        right-text="确认"
+        @click-left="isPreviewPhotoShow = false"
+        @click-right="onPhotoConfirm"
+       />
+     </van-image-preview>
+     <!-- /头像预览 -->
   </div>
 </template>
 
@@ -91,7 +107,9 @@ export default {
       isEditBirthdayShow: false,
       minDate: new Date(1970, 0, 1),
       maxDate: new Date(),
-      currentDate: new Date()
+      currentDate: new Date(),
+      isPreviewPhotoShow: false,
+      previewImages: []
     }
   },
   computed: {
@@ -110,10 +128,23 @@ export default {
       // 出发点击事件
       this.file.click()
     },
-    // 保存用户头像
-    async onChangeFile () {
-      console.log('选择头像')
+    // 预览用户头像
+    onChangeFile () {
+      // 文件对象
+      const fileObj = this.file.files[0]
+      // 获取文件数据
+      const fileData = URL.createObjectURL(fileObj)
+      // 将要预览的图片放到数组中
+      this.previewImages = [fileData]
+      // 显示图片预览
+      this.isPreviewPhotoShow = true
     },
+
+    // 保存头像
+    onPhotoConfirm () {
+      console.log('确认')
+    },
+
     // 保存用户资料
     async saveProfile (field, value) {
       this.$toast.loading({
@@ -131,6 +162,7 @@ export default {
         this.$toast.fail('更新失败')
       }
     },
+
     // 编辑用户生日
     async onBirthdayConfirm (value) {
       // 处理时间格式
@@ -172,4 +204,17 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+/deep/ .van-image-preview__cover {
+  top: unset;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  .van-nav-bar {
+    background: #181818;
+    .van-nav-bar__text, .van-nav-bar__right {
+      color: #fff;
+    }
+  }
+}
+</style>
