@@ -55,3 +55,12 @@ export const deleteLike = articleId => {
     method: 'delete'
   })
 }
+
+// 获取当前用户的文章列表
+export const getCurrentUserArticles = params => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user/articles',
+    params
+  })
+}
