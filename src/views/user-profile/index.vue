@@ -3,8 +3,8 @@
     <!-- 用户信息 -->
     <van-nav-bar
         title="个人信息"
-        left-arrow
-        @click="$router.back()"
+        left-text="返回"
+        @click-left="$router.back()"
     />
     <van-cell-group>
         <van-cell title="头像" is-link @click="onSelectFile">
@@ -228,7 +228,7 @@ export default {
   right: 0;
   .van-nav-bar {
     background: #181818;
-    .van-nav-bar__text, .van-nav-bar__right {
+     .van-nav-bar__right {
       color: #fff;
     }
   }
