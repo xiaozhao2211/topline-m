@@ -4,17 +4,20 @@ Vue.use(VueRouter)
 
 const routes = [{
   // 作品
-  path: '/my-article',
-  component: () => import('@/views/user-articles')
-}, {
-  // 浏览历史
-  path: '/my-article/history',
-  component: () => import('@/views/user-articles')
-}, {
-  // 我的收藏
-  path: '/my-article/collect',
-  component: () => import('@/views/user-articles')
-}, {
+  path: '/my-article/:type?',
+  component: () => import('@/views/user-articles'),
+  props: true
+},
+//  {
+//   // 浏览历史
+//   path: '/my-article/history',
+//   component: () => import('@/views/user-articles')
+// }, {
+//   // 我的收藏
+//   path: '/my-article/collect',
+//   component: () => import('@/views/user-articles')
+// },
+{
 // 编辑用户资料
   path: '/user-profile',
   component: () => import('@/views/user-profile')
