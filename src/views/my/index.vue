@@ -74,6 +74,7 @@
 <script>
 import { getUserInfo } from '@/api/user'
 export default {
+  name: 'user',
   data () {
     return {
       user: {}// 接收当前登录用户信息

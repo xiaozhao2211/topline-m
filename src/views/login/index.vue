@@ -91,7 +91,10 @@ export default {
         let result = await login(user)
         this.$store.commit('setUser', result.data.data)
         this.$toast.success('登录成功')
-        this.$router.push('/')
+        // this.$router.push('/')
+        // 如果有 redirect 则跳转到来源页，没有就跳转到首页
+        const redirect = this.$route.query.redirect || '/'
+        this.$router.push(redirect)
       } catch (error) {
         console.log('登录失败', error)
         this.$toast.fail('登录失败')

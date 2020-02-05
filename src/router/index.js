@@ -42,6 +42,7 @@ const routes = [
   {
   // 登录
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login')
   },
   {
