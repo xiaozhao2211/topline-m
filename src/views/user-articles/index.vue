@@ -49,7 +49,18 @@ export default {
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    beforeRouteLeave (to, from, next) {
+    // 如果跳转的是文章详情页，则把当前页面缓存起来，否则不缓存
+      if (to.name === 'article') {
+        this.$store.commit('addCachePage', 'UserArticles')
+      } else {
+        this.$store.commit('removeCachePage', 'UserArticles')
+      }
+      // 放行通过
+      next()
+    }
+  }
 }
 </script>
 
